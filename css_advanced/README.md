@@ -1,1 +1,1 @@
-CSS codes for the html skeleton created earlier one.
+css codes for my previous html skeleton
