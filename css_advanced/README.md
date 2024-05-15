@@ -1,0 +1,1 @@
+CSS codes for the html skeleton created earlier one.
