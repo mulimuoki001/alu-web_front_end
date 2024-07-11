@@ -14,6 +14,7 @@
 <body>
     <script type="application/javascript">
         // Define the createFamilyTree function
+        // Define the createFamilyTree function
         function createFamilyTree() {
             // Create a table element
             var table = $('<table></table>');
@@ -44,9 +45,28 @@
             $('body').append(table);
         }
 
-        // Call the createFamilyTree function
+        // Define the replaceFamilyTree function
+        function replaceFamilyTree() {
+            // Find the tbody element and replace its children with a new tr
+            var newRows = [
+                { firstname: 'Gerard', lastname: 'Bonissa' },
 
+            ];
+
+            var newBody = $('<tbody></tbody>');
+            $.each(newRows, function (index, person) {
+                var newRow = $('<tr></tr>');
+                newRow.append('<td>' + person.firstname + '</td>');
+                newRow.append('<td>' + person.lastname + '</td>');
+                newBody.append(newRow);
+            });
+
+            $('table tbody').replaceWith(newBody);
+        }
+
+        // Call createFamilyTree and replaceFamilyTree functions
         createFamilyTree();
+        replaceFamilyTree();
 
 
     </script>
