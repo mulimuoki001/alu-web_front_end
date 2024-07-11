@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+
+    <meta charset="utf-8" />
+    <title>Task 2</title>
+
+    <script type="application/javascript" src="https://code.jquery.com/jquery-3.7.1.slim.min.js"
+        integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+    <script type="application/javascript">
+        function createFamilyTree() {
+            $('<table>').appendTo('body');
+            $('<thead>').appendTo('table');
+            $('<tr>').appendTo('thead');
+            $('<th>').text('Firstname').appendTo('tr');
+            $('<th>').text('Lastname').appendTo('tr');
+
+            $('<tbody>').appendTo('table');
+            var row = $('<tr>').appendTo('tbody');
+            $('<td>').text('Guillaume').css('padding', '10px').appendTo(row);
+            $('<td>').text('Salva').appendTo(row);
+
+            row = $('<tr>').appendTo('tbody');
+            $('<td>').text('Paulette').css('padding', '10px').appendTo(row);
+            $('<td>').text('Salva').appendTo(row);
+
+            row = $('<tr>').appendTo('tbody');
+            $('<td>').text('Antoine').css('padding', '10px').appendTo(row);
+            $('<td>').text('Salva').appendTo(row);
+
+        }
+
+        createFamilyTree();
+    </script>
+</body>
+
+</html>
