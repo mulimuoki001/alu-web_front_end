@@ -13,27 +13,38 @@
 
 <body>
     <script type="application/javascript">
+        // Define the createFamilyTree function
         function createFamilyTree() {
-            $('<table>').appendTo('body');
-            $('<thead>').appendTo('table');
-            $('<tr>').appendTo('thead');
-            $('<th>').text('Firstname').appendTo('tr');
-            $('<th>').text('Lastname').appendTo('tr');
+            // Create a table element
+            var table = $('<table></table>');
 
-            $('<tbody>').appendTo('table');
-            var row = $('<tr>').appendTo('tbody');
-            $('<td>').text('Guillaume').css('padding', '10px').appendTo(row);
-            $('<td>').text('Salva').appendTo(row);
+            // Create the table head with Firstname and Lastname
+            var tableHead = '<thead><tr><th>Firstname</th><th>Lastname</th></tr></thead>';
+            table.append(tableHead);
 
-            row = $('<tr>').appendTo('tbody');
-            $('<td>').text('Paulette').css('padding', '10px').appendTo(row);
-            $('<td>').text('Salva').appendTo(row);
+            // Create the table body with the specified rows
+            var tableBody = $('<tbody></tbody>');
+            var rows = [
+                { firstname: 'Guillaume', lastname: 'Salva' },
+                { firstname: 'Paulette', lastname: 'Salva' },
+                { firstname: 'Antoine', lastname: 'Salva' }
+            ];
 
-            row = $('<tr>').appendTo('tbody');
-            $('<td>').text('Antoine').css('padding', '10px').appendTo(row);
-            $('<td>').text('Salva').appendTo(row);
+            // Loop through the rows and create cells for each person
+            $.each(rows, function (index, person) {
+                var row = $('<tr></tr>');
+                row.append('<td>' + person.firstname + '</td>');
+                row.append('<td>' + person.lastname + '</td>');
+                tableBody.append(row);
+            });
 
+            table.append(tableBody);
+
+            // Append the table to the page
+            $('body').append(table);
         }
+
+        // Call the createFamilyTree function
 
         createFamilyTree();
     </script>
