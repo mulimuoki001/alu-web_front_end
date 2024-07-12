@@ -12,9 +12,35 @@
 <body>
     <script type="application/javascript">
 
-        function queryWikipedia(searchTerm) {
+        $(document).ready(function () {
+            createSearchForm();
+        });
 
-            var apiUrl = 'https://cors-anywhere.herokuapp.com/https://en.wikipedia.org/w/api.php';
+        function createSearchForm() {
+            var input = $('<input>').attr('type', 'text');
+            var submit = $('<input>').attr('type', 'submit').click(function () {
+                var searchTerm = input.val();
+                queryWikipedia(searchTerm);
+            });
+            var ul = $('<ul>');
+
+            $('body').append($('<div>').addClass('search-form').append(input, submit)).append(ul);
+        }
+
+        function addNewArticle(id, title, snippet) {
+            var li = $('<li>');
+            var firstPara = $('<p>').append(
+                $('<span>').text('id - '),
+                $('<b>').text(title)
+            );
+            var secondPara = $('<p>').html(snippet);
+
+            li.append(firstPara).append(secondPara);
+            $('ul').append(li);
+        }
+
+        function queryWikipedia(searchTerm) {
+            var apiUrl = 'https://en.wikipedia.org/w/api.php';
             var params = {
                 action: 'query',
                 list: 'search',
@@ -22,7 +48,7 @@
                 format: 'json'
             };
 
-            $.ajax(apiUrl, params).done(function (data) {
+            $.getJSON(apiUrl, params).done(function (data) {
                 var searchResults = data.query.search;
                 searchResults.forEach(function (result) {
                     addNewArticle(result.pageid, result.title, result.snippet);
