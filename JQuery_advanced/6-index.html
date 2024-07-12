@@ -1,73 +1,65 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html>
 
 <head>
-
-    <meta charset="utf-8" />
-    <title>Task 2</title>
-
-    <script type="application/javascript" src="https://code.jquery.com/jquery-3.7.1.slim.min.js"
-        integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous"></script>
-
+    <title>Wikipedia Search</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <style>
+        .search-form {
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 
 <body>
-    <script type="application/javascript">
-        function createFamilyTree() {
-            var table = $('<table>');
-            var thead = $('<thead>');
-            var tr = $('<tr>');
-            var th1 = $('<th>').text('Firstname');
-            var th2 = $('<th>').text('Lastname');
-            tr.append(th1).append(th2);
-            thead.append(tr);
-            table.append(thead);
-            var tbody = $('<tbody>');
-            table.append(tbody);
-            $('body').append(table);
-        }
-
-        function addNewMember(firstName, lastName, position) {
-            var tbody = $('table tbody');
-            var tr = $('<tr>');
-            var td1 = $('<td>').text(firstName);
-            var td2 = $('<td>').text(lastName);
-            var td3 = $('<td>').css('background-color', 'orange').text('(x)').click(function () {
-                $(this).parent().remove();
-            });
-            tr.append(td1).append(td2).append(td3);
-
-            if (position === 'before') {
-                tbody.prepend(tr);
-            } else {
-                tbody.append(tr);
-            }
-        }
-
-        function createForm() {
-            var input1 = $('<input>').attr('type', 'text');
-            var input2 = $('<input>').attr('type', 'text');
-            var select = $('<select>').append(
-                $('<option>').attr('value', 'before').text('Before'),
-                $('<option>').attr('value', 'after').text('After')
-            );
-            select.addClass('arrow-select');
-            var submit = $('<input>').attr('type', 'submit').click(function () {
-                var firstName = input1.val();
-                var lastName = input2.val();
-                var position = select.val();
-                addNewMember(firstName, lastName, position);
-            });
-
-            $('body').prepend(input1).prepend(input2).prepend(select).prepend(submit);
-        }
-
+    <script>
         $(document).ready(function () {
-            $('select.arrow-select').prepend('<option value="" disabled selected>Select position</option>');
+            createSearchForm();
         });
 
-        createFamilyTree();
-        createForm();
+        function createSearchForm() {
+            var input = $('<input>').attr('type', 'text');
+            var submit = $('<input>').attr('type', 'submit').click(function () {
+                var searchTerm = input.val();
+                queryWikipedia(searchTerm);
+            });
+            var ul = $('<ul>');
+
+            $('body').append($('<div>').addClass('search-form').append(input, submit)).append(ul);
+        }
+
+        function addNewArticle(id, title, snippet) {
+            var li = $('<li>');
+            var firstPara = $('<p>').append(
+                $('<span>').text('id - '),
+                $('<b>').text(title)
+            );
+            var secondPara = $('<p>').html(snippet);
+
+            li.append(firstPara).append(secondPara);
+            $('ul').append(li);
+        }
+
+        function queryWikipedia(searchTerm) {
+
+            var apiUrl = 'https://cors-anywhere.herokuapp.com/https://en.wikipedia.org/w/api.php';
+            var params = {
+                action: 'query',
+                list: 'search',
+                srsearch: searchTerm,
+                format: 'json'
+            };
+
+            $.ajax(apiUrl, params).done(function (data) {
+                var searchResults = data.query.search;
+                searchResults.forEach(function (result) {
+                    addNewArticle(result.pageid, result.title, result.snippet);
+                });
+            }).fail(function (error) {
+                console.log('Error querying Wikipedia:', error);
+            });
+        }
     </script>
 </body>
 
