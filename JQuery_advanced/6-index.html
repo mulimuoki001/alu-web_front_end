@@ -32,7 +32,7 @@
             var tr = $('<tr>');
             var td1 = $('<td>').text(firstName);
             var td2 = $('<td>').text(lastName);
-            var td3 = $('<td').css('background-color', 'orange').text('(x)').click(function () {
+            var td3 = $('<td>').css('background-color', 'orange').text('(x)').click(function () {
                 $(this).parent().remove();
             });
             tr.append(td1).append(td2).append(td3);
@@ -51,6 +51,7 @@
                 $('<option>').attr('value', 'before').text('Before'),
                 $('<option>').attr('value', 'after').text('After')
             );
+            select.addClass('arrow-select');
             var submit = $('<input>').attr('type', 'submit').click(function () {
                 var firstName = input1.val();
                 var lastName = input2.val();
@@ -60,6 +61,10 @@
 
             $('body').prepend(input1).prepend(input2).prepend(select).prepend(submit);
         }
+
+        $(document).ready(function () {
+            $('select.arrow-select').prepend('<option value="" disabled selected>Select position</option>');
+        });
 
         createFamilyTree();
         createForm();
