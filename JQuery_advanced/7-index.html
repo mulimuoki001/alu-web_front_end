@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+
+    <meta charset="utf-8" />
+    <title>Task 2</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <script type="application/javascript">
+
+        function queryWikipedia(searchTerm) {
+
+            var apiUrl = 'https://cors-anywhere.herokuapp.com/https://en.wikipedia.org/w/api.php';
+            var params = {
+                action: 'query',
+                list: 'search',
+                srsearch: searchTerm,
+                format: 'json'
+            };
+
+            $.ajax(apiUrl, params).done(function (data) {
+                var searchResults = data.query.search;
+                searchResults.forEach(function (result) {
+                    addNewArticle(result.pageid, result.title, result.snippet);
+                });
+            }).fail(function (error) {
+                console.log('Error querying Wikipedia:', error);
+            });
+        }
+    </script>
+</body>
+
+</html>
