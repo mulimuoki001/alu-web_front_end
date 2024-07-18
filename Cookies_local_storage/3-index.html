@@ -7,17 +7,8 @@
 
 <body>
 
-    <input type="text" id="firstname" name="firstname" placeholder="Enter your name">
 
-
-    <input type="text" id="email" name="email" placeholder="Enter your email">
-
-    <button onclick="getCookie()">Log me in</button>
-    <br><br>
-    <p id="cookies" style="font-weight: bold ; font-size: 20px; ">Cookies</p>
-    <button onclick="showCookies()">Show the cookies</button>
-
-    <div id="loginForm" style="display: none;">
+    <div id="loginForm" style="display: block;">
         <h2>Login Form</h2>
         <input type="text" id="emailInput" placeholder="Email">
         <input type="text" id="firstnameInput" placeholder="Firstname">
@@ -25,22 +16,9 @@
     </div>
 
     <script>
-        function getCookie(name) {
-            const value = `; ${document.cookie}`;
-            const parts = value.split(`; ${name}=`);
-            if (parts.length === 2) {
-                return parts.pop().split(';').shift();
-            }
-            return '';
-        }
 
-        function showCookies() {
-            const email = getCookie('email');
-            const firstname = getCookie('firstname');
-            const paragraph = document.createElement('p');
-            paragraph.textContent = `Email: ${email} - Firstname: ${firstname}`;
-            document.body.appendChild(paragraph);
-        }
+
+
 
 
 
@@ -62,31 +40,34 @@
             showForm();
         }
 
-        function showWelcomeMessageOrForm() {
-            const email = getCookie('email');
-            const firstname = getCookie('firstname');
+        function login() {
+            const email = document.getElementById('emailInput').value;
+            const firstname = document.getElementById('firstnameInput').value;
 
-            if (email && firstname) {
-                const h1 = document.createElement('h1');
-                h1.textContent = `Welcome ${firstname} `;
+            // Set the email and firstname cookies
+            document.cookie = `email=${email}; expires=10days; path=/`;
+            document.cookie = `firstname=${firstname}; expires=10days; path=/`;
 
-                const logoutLink = document.createElement('a');
-                logoutLink.style.fontStyle = 'italic';
-                logoutLink.style.marginLeft = '10px';
-                logoutLink.textContent = '(logout)';
-                logoutLink.href = '#';
-                logoutLink.onclick = function () {
-                    deleteCookiesAndShowForm();
-                    h1.remove();
-                    showForm();
-                };
+            // Display the user details and logout option
+            const userDetails = document.createElement('p');
+            userDetails.textContent = `Welcome: ${firstname} `;
 
-                h1.appendChild(logoutLink);
-                document.body.innerHTML = '';
-                document.body.appendChild(h1);
-            } else {
+            const logoutLink = document.createElement('a');
+            logoutLink.style.fontStyle = 'italic';
+            logoutLink.style.marginLeft = '10px';
+            logoutLink.textContent = '(logout)';
+            logoutLink.href = '#';
+            logoutLink.onclick = function () {
+                deleteCookiesAndShowForm();
+                userDetails.remove();
                 showForm();
-            }
+            };
+
+            userDetails.appendChild(logoutLink);
+            document.body.appendChild(userDetails);
+
+            // Hide the login form
+            hideForm();
         }
     </script>
 </body>
