@@ -35,14 +35,38 @@
             document.getElementById('loginForm').style.display = 'none';
         }
 
-
-        function showWelcomeMessageOrForm() {
+        function setCookiesAndShowWelcomeMessage() {
             const email = document.getElementById('emailInput').value;
             const firstname = document.getElementById('firstnameInput').value;
 
             // Set the email and firstname cookies
-            document.cookie = `email=${email}; expires=10days; path=/`;
-            document.cookie = `firstname=${firstname}; expires=10days; path=/`;
+            Cookies.set = `email=${email}; expires=10days; path=/`;
+            Cookies.set = `firstname=${firstname}; expires=10days; path=/`;
+
+            // Show the welcome message
+            const userDetails = document.createElement('p');
+            userDetails.textContent = `Welcome: ${firstname} `;
+
+            const logoutLink = document.createElement('a');
+            logoutLink.style.fontStyle = 'italic';
+            logoutLink.style.marginLeft = '10px';
+            logoutLink.textContent = '(logout)';
+            logoutLink.href = '#';
+            logoutLink.onclick = function () {
+                Cookies.remove();
+                userDetails.remove();
+                showForm();
+            };
+
+
+            userDetails.appendChild(logoutLink);
+            document.body.appendChild(userDetails);
+
+            // Hide the login form
+            hideForm();
+        }
+        function showWelcomeMessageOrForm() {
+
 
             // Display the user details and logout option
             const userDetails = document.createElement('p');
@@ -58,17 +82,7 @@
                 userDetails.remove();
                 showForm();
             };
-            function setCookiesAndShowWelcomeMessage() {
-                const email = document.getElementById('emailInput').value;
-                const firstname = document.getElementById('firstnameInput').value;
 
-                // Set the email and firstname cookies using js-cookie
-                Cookies.set('email', email, { expires: 10 });
-                Cookies.set('firstname', firstname, { expires: 10 });
-
-                // Show the welcome message
-                showWelcomeMessageOrForm();
-            }
 
             userDetails.appendChild(logoutLink);
             document.body.appendChild(userDetails);
@@ -76,6 +90,7 @@
             // Hide the login form
             hideForm();
         }
+
     </script>
 </body>
 
