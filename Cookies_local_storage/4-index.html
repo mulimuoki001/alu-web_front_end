@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Cookie Page</title>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+</head>
+
+<body>
+
+
+    <div id="loginForm" style="display: block;">
+        <h2>Login Form</h2>
+        <input type="text" id="emailInput" placeholder="Email">
+        <input type="text" id="firstnameInput" placeholder="Firstname">
+        <button onclick="setCookiesAndShowWelcomeMessage()">Login</button>
+    </div>
+
+    <script>
+
+
+
+
+
+
+        function showForm() {
+            const welcomeMessage = document.getElementById('welcomeMessage');
+            if (welcomeMessage) {
+                welcomeMessage.remove();
+            }
+            document.getElementById('loginForm').style.display = 'block';
+        }
+
+        function hideForm() {
+            document.getElementById('loginForm').style.display = 'none';
+        }
+
+
+        function showWelcomeMessageOrForm() {
+            const email = document.getElementById('emailInput').value;
+            const firstname = document.getElementById('firstnameInput').value;
+
+            // Set the email and firstname cookies
+            document.cookie = `email=${email}; expires=10days; path=/`;
+            document.cookie = `firstname=${firstname}; expires=10days; path=/`;
+
+            // Display the user details and logout option
+            const userDetails = document.createElement('p');
+            userDetails.textContent = `Welcome: ${firstname} `;
+
+            const logoutLink = document.createElement('a');
+            logoutLink.style.fontStyle = 'italic';
+            logoutLink.style.marginLeft = '10px';
+            logoutLink.textContent = '(logout)';
+            logoutLink.href = '#';
+            logoutLink.onclick = function () {
+                Cookies.remove();
+                userDetails.remove();
+                showForm();
+            };
+            function setCookiesAndShowWelcomeMessage() {
+                const email = document.getElementById('emailInput').value;
+                const firstname = document.getElementById('firstnameInput').value;
+
+                // Set the email and firstname cookies using js-cookie
+                Cookies.set('email', email, { expires: 10 });
+                Cookies.set('firstname', firstname, { expires: 10 });
+
+                // Show the welcome message
+                showWelcomeMessageOrForm();
+            }
+
+            userDetails.appendChild(logoutLink);
+            document.body.appendChild(userDetails);
+
+            // Hide the login form
+            hideForm();
+        }
+    </script>
+</body>
+
+</html>
