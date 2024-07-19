@@ -15,7 +15,7 @@
 
         // index.js
         if (typeof (Storage) !== "undefined") {
-            // Code for localStorage/sessionStorage.
+            // Code for sessionStorage.
             createStore();
             displayCart();
         } else {
@@ -24,7 +24,7 @@
         }
 
         function addItemToCart(item) {
-            localStorage.setItem(item, true);
+            sessionStorage.setItem(item, true);
         }
 
         function createStore() {
@@ -40,7 +40,7 @@
         }
 
         function displayCart() {
-            const cartItems = Object.keys(localStorage).filter(key => localStorage.getItem(key) === "true");
+            const cartItems = Object.keys(sessionStorage).filter(key => sessionStorage.getItem(key) === "true");
             if (cartItems.length > 0) {
                 const p = document.createElement("p");
                 p.textContent = `You previously had ${cartItems.length} items in your cart`;
